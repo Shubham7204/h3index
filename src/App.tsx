@@ -61,7 +61,7 @@ const getKeplerColor = (normalized: number): [number, number, number, number] =>
 // Function to load and parse CSV data
 const loadCSVData = async (): Promise<MumbaiDataItem[]> => {
   try {
-    const response = await fetch('/src/assets/new_prosmumbai.csv');
+    const response = await fetch('/new_prosmumbai.csv');
     const csvText = await response.text();
 
     const lines = csvText.split('\n');
