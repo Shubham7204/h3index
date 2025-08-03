@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
 import DeckGL from "@deck.gl/react";
 import { PolygonLayer } from "@deck.gl/layers";
-import { Map } from "react-map-gl";
+import { Map } from "react-map-gl/maplibre";
 import * as h3 from "h3-js";
 import 'maplibre-gl/dist/maplibre-gl.css';
+
+// Define the data structure interface
+interface MumbaiDataItem {
+  city: string;
+  locality: string;
+  h3index: string;
+  poiCode: string;
+  val_trans: number;
+}
 
 // Kepler.gl's classic viridis-like color palette for H3 visualizations
 const getKeplerColor = (normalized: number): [number, number, number, number] => {
@@ -50,7 +59,7 @@ const getKeplerColor = (normalized: number): [number, number, number, number] =>
 };
 
 // Function to load and parse CSV data
-const loadCSVData = async () => {
+const loadCSVData = async (): Promise<MumbaiDataItem[]> => {
   try {
     const response = await fetch('/src/assets/new_prosmumbai.csv');
     const csvText = await response.text();
@@ -79,7 +88,7 @@ const loadCSVData = async () => {
 };
 
 export default function App() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<MumbaiDataItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [dataRange, setDataRange] = useState({ min: 0, max: 0 });
 
@@ -154,8 +163,8 @@ export default function App() {
         }}
         controller={true}
         layers={[hexLayer]}
-        getTooltip={({ object }: { object: any }) =>
-          object && {
+        getTooltip={(info: any) =>
+          info.object && {
             html: `<div style="
               background: rgba(42, 42, 42, 0.95); 
               color: white; 
@@ -166,14 +175,14 @@ export default function App() {
               border: 1px solid rgba(255,255,255,0.1);
             ">
               <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #fff;">
-                ${object.locality}, ${object.city}
+                ${info.object.locality}, ${info.object.city}
               </div>
               <div style="font-size: 12px; color: #e0e0e0; line-height: 1.4;">
-                <div><strong>Value:</strong> <span style="color: #ffd700;">${object.val_trans.toFixed(3)}</span></div>
-                <div><strong>POI Code:</strong> ${object.poiCode}</div>
+                <div><strong>Value:</strong> <span style="color: #ffd700;">${info.object.val_trans.toFixed(3)}</span></div>
+                <div><strong>POI Code:</strong> ${info.object.poiCode}</div>
                 <div style="margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.1);">
                   <div style="font-size: 10px; color: #999; font-family: monospace;">
-                    H3: ${object.h3index}
+                    H3: ${info.object.h3index}
                   </div>
                 </div>
               </div>
@@ -187,7 +196,6 @@ export default function App() {
       >
         <Map
           reuseMaps
-          mapLib={import("maplibre-gl")}
           // Dark theme like Kepler.gl
           mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json"
         />
