@@ -143,37 +143,6 @@ export default function App() {
 
   return (
     <div className="h-screen w-screen relative">
-      {/* Kepler-style info panel */}
-      {/* <div
-  className="absolute top-4 left-4 z-10 bg-white text-black p-5 rounded-lg shadow-lg max-w-xs"
-  style={{
-    border: "1px solid #eee",
-    fontFamily: "inherit",
-    backgroundColor: "white", // fallback if Tailwind not applied
-    color: "black"            // fallback if Tailwind not applied
-  }}
->
-  <h3 className="font-bold text-lg mb-2">Mumbai H3 Analysis</h3>
-  <div className="text-sm space-y-1">
-    <div>Data Points: <span className="text-blue-700 font-semibold">{data.length}</span></div>
-    <div>Range: <span className="text-blue-700 font-semibold">{dataRange.min.toFixed(2)} - {dataRange.max.toFixed(2)}</span></div>
-    <div className="mt-3">
-      <div className="text-xs text-gray-600 mb-1">Value Scale:</div>
-      <div
-        className="h-3 rounded"
-        style={{
-          background: 'linear-gradient(to right, rgb(68,1,84), rgb(59,82,139), rgb(33,144,140), rgb(94,201,98), rgb(253,231,37))'
-        }}
-      ></div>
-      <div className="flex justify-between text-xs text-gray-600 mt-1">
-        <span>Low</span>
-        <span>High</span>
-      </div>
-    </div>
-    <div className="mt-2 text-xs text-gray-500">H3</div>
-  </div>
-</div> */}
-
 
       <DeckGL
         initialViewState={{
